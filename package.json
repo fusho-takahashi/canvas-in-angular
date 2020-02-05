@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "lint-staged": "lint-staged",
+    "format": "prettier --parser typescript --write \"./**/*.ts\" &&  prettier --parser angular --write \"./**/*.html\""
   },
   "private": true,
   "dependencies": {
@@ -19,6 +21,7 @@
     "@angular/platform-browser": "~9.0.0-rc.14",
     "@angular/platform-browser-dynamic": "~9.0.0-rc.14",
     "@angular/router": "~9.0.0-rc.14",
+    "@rdlabo/ng-add-formatter": "0.0.21",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -42,6 +45,22 @@
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
-    "typescript": "~3.7.5"
+    "typescript": "~3.7.5",
+    "prettier": "latest",
+    "lint-staged": "latest",
+    "@kaizenplatform/prettier-config": "latest"
+  },
+  "pre-commit": [
+    "lint-staged"
+  ],
+  "lint-staged": {
+    "*.ts": [
+      "prettier --parser typescript --write",
+      "git add"
+    ],
+    "*.html": [
+      "prettier --parser angular --write",
+      "git add"
+    ]
   }
 }
