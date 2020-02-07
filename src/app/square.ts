@@ -7,14 +7,15 @@ export class Square {
     this.y = coordinates.sy;
   }
 
+  private speed = 4;
   private color = 'red';
   private x = 0;
   private y = 0;
   private z = 30;
 
   moveRight() {
-    this.x++;
-    this.y++;
+    this.x += this.speed;
+    this.y += this.speed;
     this.draw();
   }
 
