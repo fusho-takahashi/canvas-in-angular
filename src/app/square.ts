@@ -1,3 +1,5 @@
+import { empty } from 'rxjs';
+
 export class Square {
   constructor(
     private ctx: CanvasRenderingContext2D,
@@ -5,6 +7,7 @@ export class Square {
   ) {
     this.x = coordinates.sx;
     this.y = coordinates.sy;
+    const rad = Math.atan2(coordinates.sy - coordinates.ey, coordinates.sx - coordinates.ex); // = 45度
   }
 
   private speed = 4;
