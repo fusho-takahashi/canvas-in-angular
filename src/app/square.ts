@@ -1,5 +1,11 @@
 export class Square {
-  constructor(private ctx: CanvasRenderingContext2D) {}
+  constructor(
+    private ctx: CanvasRenderingContext2D,
+    private coordinates: { sx: number; sy: number; ex: number; ey: number },
+  ) {
+    this.x = coordinates.sx;
+    this.y = coordinates.sy;
+  }
 
   private color = 'red';
   private x = 0;
@@ -8,12 +14,17 @@ export class Square {
 
   moveRight() {
     this.x++;
+    this.y++;
     this.draw();
   }
 
   draw() {
     this.ctx.fillStyle = this.color;
-    const xxx = 8 * this.x + this.z >= this.ctx.canvas.width ? this.ctx.canvas.width - this.z : 8 * this.x;
-    this.ctx.fillRect(xxx, this.z * this.y, this.z, this.z);
+    this.ctx.fillRect(
+      this.x < this.coordinates.ex ? this.x : this.coordinates.ex,
+      this.y < this.coordinates.ey ? this.y : this.coordinates.ey,
+      this.z,
+      this.z,
+    );
   }
 }
