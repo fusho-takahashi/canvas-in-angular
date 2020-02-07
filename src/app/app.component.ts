@@ -35,7 +35,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     if (this.ctx === null || this.ctx === undefined) {
       return;
     }
-    const square = new Square(this.ctx, { sx: 0, sy: 0, ex: 100, ey: 100 });
+    const square = new Square(this.ctx, { sx: 200, sy: 200, ex: 50, ey: 50 });
     this.squares.push(square);
   }
 

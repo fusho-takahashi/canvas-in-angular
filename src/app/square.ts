@@ -14,16 +14,16 @@ export class Square {
   private z = 30;
 
   moveRight() {
-    this.x += this.speed;
-    this.y += this.speed;
+    this.x -= this.speed;
+    this.y -= this.speed;
     this.draw();
   }
 
   draw() {
     this.ctx.fillStyle = this.color;
     this.ctx.fillRect(
-      this.x < this.coordinates.ex ? this.x : this.coordinates.ex,
-      this.y < this.coordinates.ey ? this.y : this.coordinates.ey,
+      this.x > this.coordinates.ex ? this.x : this.coordinates.ex,
+      this.y > this.coordinates.ey ? this.y : this.coordinates.ey,
       this.z,
       this.z,
     );
