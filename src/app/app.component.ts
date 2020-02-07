@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit, NgZone, OnDestroy } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, NgZone, OnDestroy, AfterViewInit } from '@angular/core';
 import { Square } from './square';
 import { tick } from '@angular/core/testing';
 
@@ -7,33 +7,28 @@ import { tick } from '@angular/core/testing';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements AfterViewInit, OnDestroy {
   constructor(private ngZone: NgZone) {}
 
-  @ViewChild('canvas', { static: true }) canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('canvas', { static: false }) canvas: ElementRef<HTMLCanvasElement>;
   ctx: CanvasRenderingContext2D | null;
   requestId: number;
-  interval: NodeJS.Timeout;
   squares: Square[] = [];
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
+    this.ngZone.runOutsideAngular(() => this.animation());
+  }
+
+  animation() {
     if (this.ctx === null || this.ctx === undefined) {
       return;
     }
-    this.ctx.fillStyle = 'red';
-    this.ngZone.runOutsideAngular(() => this.tick());
-    this.interval = setInterval(() => {
-      this.tick();
-    }, 20);
-  }
-
-  tick() {
-    this.ctx?.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.squares.forEach((square: Square) => {
       square.moveRight();
     });
-    this.requestId = requestAnimationFrame(() => this.tick);
+    this.requestId = requestAnimationFrame(this.animation.bind(this));
   }
 
   play() {
@@ -45,7 +40,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    clearInterval(this.interval);
     cancelAnimationFrame(this.requestId);
   }
 }
